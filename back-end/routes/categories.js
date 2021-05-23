@@ -1,14 +1,14 @@
 const { Category } = require('../models/category');
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 
-router.get('/', async (req, res) => {
+router.get(`/`, async (req, res) => {
     const categoryList = await Category.find();
+
     if (!categoryList) {
-        res.status(500).json({ success: false });
+        res.status(500).json({ success: false })
     }
-    res.send(categoryList);
+    res.status(200).send(categoryList);
 })
 
 router.get('/:id', async (req, res) => {
@@ -20,6 +20,8 @@ router.get('/:id', async (req, res) => {
     res.status(200).send(category);
 })
 
+
+
 router.post('/', async (req, res) => {
     let category = new Category({
         name: req.body.name,
@@ -29,7 +31,7 @@ router.post('/', async (req, res) => {
     category = await category.save();
 
     if (!category)
-        return res.status(404).send("the category cannot be created")
+        return res.status(400).send('the category cannot be created!')
 
     res.send(category);
 })
